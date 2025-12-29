@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="كيان بلس - الشريك الأمثل لمصنعك | خدمات صناعية متكاملة من التأسيس حتى التشغيل">
+    <meta name="keywords" content="كيان بلس, خدمات صناعية, تراخيص, مصانع, السجل الصناعي, البيئة, الحريق">
+    <title>كيان بلس - الشريك الأمثل لمصنعك</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0A3D62;
+            --secondary: #1E5A7A;
+            --accent: #D4AF37;
+            --gold: #FFD700;
+            --success: #10b981;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #cbd5e1;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Scroll Progress Indicator */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: var(--scroll-progress, 0%);
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            z-index: 9999;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom, var(--darker) 0%, #0a0f1e 50%, var(--darker) 100%);
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .shape1 {
+            width: 600px;
+            height: 600px;
+            background: var(--primary);
+            top: -200px;
+            right: -200px;
+        }
+
+        .shape2 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            top: 40%;
+            left: -150px;
+            animation-delay: 8s;
+        }
+
+        .shape3 {
+            width: 700px;
+            height: 700px;
+            background: var(--secondary);
+            bottom: -250px;
+            right: 40%;
+            animation-delay: 15s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(100px, -100px); }
+            66% { transform: translate(-80px, 80px); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Fixed Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 61, 98, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 1.2rem 0;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 61, 98, 0.95);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
+            padding: 0.8rem 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        nav .logo-nav img {
+            width: 50px;
+            height: auto;
+            filter: drop-shadow(0 4px 10px rgba(212,175,55,0.3));
+        }
+
+        nav .brand-name {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Menu Button */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 100px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--accent);
+            padding: 0.6rem 1.8rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            animation: slideDown 1s ease-out;
+            font-weight: 600;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff, var(--accent), var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            line-height: 1.1;
+            animation: slideUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero .subtitle {
+            font-size: 2.2rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            animation: slideUp 1s ease-out 0.4s both;
+        }
+
+        .hero .description {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: var(--gray);
+            font-size: 1.3rem;
+            line-height: 1.9;
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+            animation: fadeIn 1s ease-out 0.8s both;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1.2rem 3rem;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            color: var(--primary);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+
+        .social-links a {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Sections */
+        section {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        /* Scroll Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s ease-out;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .section-title {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.3rem;
+            margin-bottom: 4rem;
+            font-weight: 600;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 25px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212,175,55,0.05) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 70px rgba(212, 175, 55, 0.3);
+            border-color: var(--accent);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .service-card h3 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-card p {
+            color: #495057;
+            font-size: 1.1rem;
+            line-height: 1.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-item {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border-right: 5px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.4s;
+            color: #2d3748;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px) translateX(-5px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.25);
+            border-right-color: var(--primary);
+        }
+
+        .feature-item::before {
+            content: '✓';
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            margin-left: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .feature-item strong {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        /* Locations Section */
+        .locations {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 4rem;
+            border-radius: 30px;
+            margin-top: 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .locations::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .locations h3 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--gold);
+            font-weight: 900;
+            position: relative;
+            z-index: 1;
+        }
+
+        .locations p {
+            font-size: 1.4rem;
+            line-height: 2;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin: 0.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .badge:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--primary) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 4s ease-in-out infinite;
+            padding: 5rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .cta-section::before {
+            content: '⚙️';
+            position: absolute;
+            font-size: 300px;
+            opacity: 0.08;
+            left: -60px;
+            top: -60px;
+            animation: spin 25s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            font-weight: 900;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section p {
+            font-size: 1.8rem;
+            color: var(--light);
+            margin-bottom: 3rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-button {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem 4rem;
+            border-radius: 50px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(10,61,98,0.4);
+        }
+
+        .contact-button:hover {
+            background: var(--secondary);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(10,61,98,0.5);
+        }
+
+        .contact-button:active {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .whatsapp-btn {
+            background: #25D366 !important;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E !important;
+        }
+
+        .facebook-btn {
+            background: #1877F2 !important;
+        }
+
+        .facebook-btn:hover {
+            background: #0C63D4 !important;
+        }
+
+        /* Experience Section */
+        .experience-section {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.4s;
+            margin-top: 4rem;
+        }
+
+        .experience-section:hover {
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.35);
+        }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .experience-title {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+        }
+
+        .company-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            padding: 1.2rem 1.5rem;
+            padding-right: 2.5rem;
+            border-radius: 12px;
+            border-right: 4px solid var(--accent);
+            position: relative;
+            color: #495057;
+            font-size: 1rem;
+            line-height: 1.7;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .company-item:hover {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            transform: translateY(-5px) translateX(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25);
+            border-right-color: var(--primary);
+        }
+
+        .company-item::before {
+            content: '✓';
+            position: absolute;
+            right: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--accent), var(--gold));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Contact Info Cards */
+        .contact-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .contact-info-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 15px 50px rgba(10, 61, 98, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: white;
+            transition: all 0.4s;
+        }
+
+        .contact-info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 70px rgba(10, 61, 98, 0.5);
+        }
+
+        .contact-info-card h3 {
+            color: var(--gold);
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .contact-info-card .info-item {
+            margin-bottom: 1.8rem;
+            padding-right: 2.5rem;
+            position: relative;
+            line-height: 1.9;
+            font-size: 1.05rem;
+        }
+
+        .contact-info-card .info-item::before {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 1.5rem;
+        }
+
+        .contact-info-card .address::before {
+            content: '📍';
+        }
+
+        .contact-info-card .phones {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .contact-info-card .phone-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+            display: inline-block;
+            padding: 0.5rem 0;
+        }
+
+        .contact-info-card .phone-link:hover {
+            color: white;
+            transform: translateX(-5px);
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--gray);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .experience-grid,
+            .contact-cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-section,
+            .contact-info-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .experience-title {
+                font-size: 1.5rem;
+            }
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 100%;
+                background: rgba(10, 61, 98, 0.98);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav ul li {
+                width: 100%;
+                text-align: center;
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .services-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .sidebar,
+            .contact-box {
+                width: 100%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="floating-shape shape1"></div>
+        <div class="floating-shape shape2"></div>
+        <div class="floating-shape shape3"></div>
+    </div>
+
+    <!-- Fixed Navigation -->
+    <nav id="navbar">
+        <div class="container">
+            <div class="logo-nav">
+                <img src="mainlogo.png" alt="كيان بلس">
+                <span class="brand-name">كيان PLUS</span>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="navMenu">
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#services">خدماتنا</a></li>
+                <li><a href="#features">مميزاتنا</a></li>
+                <li><a href="#locations">مواقعنا</a></li>
+                <li><a href="#experience">خبراتنا</a></li>
+                <li><a href="#contact">اتصل بنا</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🏭 مرحباً بكم في كيان بلس</div>
+            <h1>كيان PLUS</h1>
+            <p class="subtitle">للخدمات الصناعية المتكاملة</p>
+            <p class="description">
+                ⚙️ شريكك الموثوق من التأسيس حتى التشغيل ⚙️<br>
+                خبرة حقيقية... ثقة مستمرة... تنفيذ باحتراف<br>
+                مع كيان بلس كل إجراءات مصنعك في مكان واحد - من التأسيس حتى التشغيل بأقل وقت ممكن
+            </p>
+            <div class="cta-buttons">
+                <a href="#services" class="btn btn-primary">
+                    <span>استكشف خدماتنا</span>
+                </a>
+                <a href="#contact" class="btn btn-outline">
+                    <span>تواصل معنا</span>
+                </a>
+            </div>
+            <div class="social-links">
+                <a href="tel:01033006690" aria-label="اتصل بنا">📱</a>
+                <a href="https://wa.me/201033006690" target="_blank" aria-label="واتساب">💬</a>
+                <a href="https://www.facebook.com/profile.php?id=61578615637746" target="_blank" aria-label="فيسبوك">f</a>
+                <a href="#contact" aria-label="البريد الإلكتروني">📧</a>
+                <a href="https://www.google.com/maps/place/30%C2%B017'29.8%22N+31%C2%B044'49.4%22E/@30.2915974,31.7444897,17z/data=!3m1!4b1!4m4!3m3!8m2!3d30.2915974!4d31.7470646?hl=en&entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoKLDEwMDc5MjA2OUgBUAM%3D" target="_blank" aria-label="المواقع">📍</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <h2 class="section-title fade-in">🎯 خدماتنا المتكاملة</h2>
+            <p class="section-subtitle fade-in">نقدم لك حلولاً شاملة لجميع احتياجاتك الصناعية</p>
+            <div class="services-grid">
+                <div class="service-card scale-in">
+                    <div class="service-icon">📋</div>
+                    <h3>التأسيس والتراخيص</h3>
+                    <p>استخراج السجل التجاري والبطاقة الضريبية، إنهاء جميع الإجراءات الصناعية، رخص التشغيل، السجل الصناعي، استئناف التعامل</p>
+                </div>
+                
+                <div class="service-card scale-in">
+                    <div class="service-icon">🏗️</div>
+                    <h3>رخص البناء والتصميم</h3>
+                    <p>تصميم الرسومات الهندسية للمصانع، إنهاء إجراءات الترخيص بجهاز العاشر والهيئة العامة للتنمية الصناعية والمجمعات الصناعية</p>
+                </div>
+                
+                <div class="service-card scale-in">
+                    <div class="service-icon">📄</div>
+                    <h3>الملفات الفنية والموافقات</h3>
+                    <p>إعداد واعتماد الملفات الفنية - البيئية - السلامة - الحريق، اعتماد استشاري كهرباء وميكانيكا طبقاً لاشتراطات الهيئة</p>
+                </div>
+                
+                <div class="service-card scale-in">
+                    <div class="service-icon">🌱</div>
+                    <h3>موافقات البيئة</h3>
+                    <p>موافقات البيئة عالية ومنخفضة المخاطر، تعديلات السجل التجاري، تغيير النشاط</p>
+                </div>
+                
+                <div class="service-card scale-in">
+                    <div class="service-icon">🚨</div>
+                    <h3>أنظمة الحريق والإنذار</h3>
+                    <p>تنفيذ وتوريد شبكات خطوط الحريق، مجموعات الطلمبات، أنظمة الإنذار، الإطفاء الذاتي، تأمين المخازن والمحولات بنظام CO₂</p>
+                </div>
+                
+                <div class="service-card scale-in">
+                    <div class="service-icon">📹</div>
+                    <h3>أنظمة المراقبة والأمان</h3>
+                    <p>توريد وتركيب كاميرات المراقبة بأعلى تقنية، شبكة الإنذار، أنظمة الحماية المدنية والأمن الصناعي مع عقد صيانة سنوي</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="container">
+            <h2 class="section-title fade-in">⭐ لماذا كيان بلس؟</h2>
+            <p class="section-subtitle fade-in">نتميز بالخبرة والاحترافية في تقديم خدماتنا</p>
+            <div class="features-grid">
+                <div class="feature-item fade-in-right">
+                    <strong>فريق متخصص</strong> من المهندسين والفنيين ذوي خبرة عالية
+                </div>
+                
+                <div class="feature-item fade-in-left">
+                    <strong>تصميم احترافي</strong> بأوتوكاد قبل التنفيذ
+                </div>
+                
+                <div class="feature-item fade-in-right">
+                    <strong>أسرع إنجاز</strong> لجميع الإجراءات والتراخيص
+                </div>
+                
+                <div class="feature-item fade-in-left">
+                    <strong>خدمة شاملة</strong> من A إلى Z في مكان واحد
+                </div>
+                
+                <div class="feature-item fade-in-right">
+                    <strong>جودة مضمونة</strong> في التنفيذ والمتابعة
+                </div>
+                
+                <div class="feature-item fade-in-left">
+                    <strong>أسعار تنافسية</strong> وعروض مميزة
+                </div>
+                
+                <div class="feature-item fade-in-right">
+                    <strong>متابعة مستمرة</strong> حتى اكتمال المشروع
+                </div>
+                
+                <div class="feature-item fade-in-left">
+                    <strong>استشارات مجانية</strong> لتقييم احتياجات مصنعك
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations Section -->
+    <section id="locations">
+        <div class="container">
+            <div class="locations fade-in">
+                <h3>🗺️ نخدمكم في جميع المناطق الصناعية</h3>
+                <p>العاشر من رمضان • بدر • العبور • 6 أكتوبر • المنطقة الصناعية بالسويس • سيناء</p>
+                <div style="margin-top: 30px;">
+                    <span class="badge">✓ خبرة في كبرى المصانع</span>
+                    <span class="badge">✓ سمعة موثوقة</span>
+                    <span class="badge">✓ تغطية شاملة</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Previous Experience Section -->
+    <section id="experience">
+        <div class="container">
+            <h2 class="section-title fade-in">🏆 الخبرات السابقة في التراخيص</h2>
+            <p class="section-subtitle fade-in">شركاء النجاح الذين وثقوا بخبرتنا</p>
+            <div class="experience-section fade-in">
+                <div class="experience-grid">
+                    <div class="company-item scale-in">مجموعة الهلال والنجمة الفضية</div>
+                    <div class="company-item scale-in">شركة السويدي للصناعات الكهربية</div>
+                    <div class="company-item scale-in">السويدي اليكتريك لنظم القوى PSP</div>
+                    <div class="company-item scale-in">الشركة العربية للصناعات الحديدية (السويدي)</div>
+                    <div class="company-item scale-in">أكاديمية جامعة المستقبل - طريق مصر الإسماعيلية</div>
+                    <div class="company-item scale-in">دار فؤاد حبيب لكبار السن - طريق مصر الإسماعيلية</div>
+                    <div class="company-item scale-in">مصنع زهرة سيناء للجبس - أبو زنيمة بسيناء</div>
+                    <div class="company-item scale-in">شركة قنديل للزجاج بمدينة العاشر - منطقة A4</div>
+                    <div class="company-item scale-in">شركة بن عبد المعبود A6 بمدينة العاشر</div>
+                    <div class="company-item scale-in">شركة مينترا للبسكويت - زيزينيا بمدينة العاشر</div>
+                    <div class="company-item scale-in">شركة تكنو فيجين بالعين السخنة - السويس</div>
+                    <div class="company-item scale-in">شركة باور ماركت للصناعات الهندسية - 710 فدان بمدينة العاشر</div>
+                    <div class="company-item scale-in">شركة الخرافي لقص وتجهيز الورق</div>
+                    <div class="company-item scale-in">شركة لاكتو مصر لألبان الأطفال</div>
+                    <div class="company-item scale-in">شركة رسايل للصناعات النسيجية بالعاشر - A4</div>
+                    <div class="company-item scale-in">شركة تراكو لصناعة الواجهات بالتجمع الخامس</div>
+                    <div class="company-item scale-in">شركة السلام لصناعة البلاستيك بالعاشر - A4</div>
+                    <div class="company-item scale-in">شركة السويدي اليكتريك لأعمال البنية التحتية</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="cta-section fade-in">
+                <h2>🚀 ابدأ مشروعك الآن!</h2>
+                <p>تواصل معنا واعتبر إجراءات مصنعك خلصانة</p>
+                
+                <div class="contact-info">
+                    <a href="tel:01033006690" class="contact-button">
+                        📱 01033006690
+                    </a>
+                    <a href="https://wa.me/201033006690" class="contact-button whatsapp-btn">
+                        💬 واتساب
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61578615637746" target="_blank" class="contact-button facebook-btn">
+                        f فيسبوك
+                    </a>
+                </div>
+                
+                <div style="margin-top: 40px; font-size: 1.3rem; color: #ffffff; font-weight: 700;">
+                    ⏰ نرد على استفساراتك في أسرع وقت<br>
+                    💼 استشارة مجانية لتقييم احتياجاتك<br>
+                    ✅ عقود موثقة وضمانات معتمدة
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 كيان PLUS. جميع الحقوق محفوظة</p>
+        <p>صُمم وطُور بواسطة كيان بلس للخدمات الصناعية</p>
+        <p>⚙️ شريكك الموثوق من التأسيس حتى التشغيل</p>
+        <p>أو من خلال موقعنا على <a href="https://www.facebook.com/profile.php?id=61578615637746" target="_blank" style="color: var(--gold); text-decoration: none; font-weight: bold;">فيس بوك</a></p>
+    </footer>
+
+    <script>
+        // Scroll animations with Intersection Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animation elements
+        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar scroll effect
+        const navbar = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for floating shapes
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const shapes = document.querySelectorAll('.floating-shape');
+            
+            shapes.forEach((shape, index) => {
+                const speed = 0.5 + (index * 0.1);
+                shape.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.documentElement.style.setProperty('--scroll-progress', scrolled + '%');
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
