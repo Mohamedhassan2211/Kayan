@@ -143,6 +143,139 @@
         }
     }
     </script>
+    
+    <!-- FAQ Schema for Rich Snippets -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "ما هي خدمات كيان بلس؟",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "كيان بلس تقدم خدمات متكاملة للمصانع تشمل: استخراج التراخيص الصناعية، السجل الصناعي، رخص التشغيل، موافقات البيئة، أنظمة الحريق، رخص البناء، كاميرات المراقبة، والملفات الفنية."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "كيف أتواصل مع كيان بلس؟",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "يمكنك التواصل مع كيان بلس عبر الهاتف: 01033006690 أو عبر واتساب على نفس الرقم. نقدم استشارة مجانية لجميع العملاء."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "ما هي المناطق التي تغطيها كيان بلس؟",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "نغطي جميع المناطق الصناعية في مصر: العاشر من رمضان، 6 أكتوبر، بدر، العبور، السويس، سيناء، وجميع المدن الصناعية."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "كم سنة خبرة لدى كيان بلس؟",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "كيان بلس لديها أكثر من 15 سنة خبرة في مجال التراخيص الصناعية، وأنجزت أكثر من 500 مشروع بنسبة نجاح 99%."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "ما هو السجل الصناعي وكيف أستخرجه؟",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "السجل الصناعي هو وثيقة رسمية تثبت تسجيل المنشأة الصناعية لدى هيئة التنمية الصناعية. كيان بلس تساعدك في استخراجه بسهولة مع كافة الموافقات المطلوبة."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "ما هي رخصة التشغيل الدائمة؟",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "رخصة التشغيل الدائمة هي الترخيص النهائي الذي يسمح للمصنع بالعمل بشكل قانوني. كيان بلس تستخرجها لك بعد استيفاء جميع الاشتراطات."
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "كيان بلس",
+        "alternateName": ["Kayan Plus", "كيان", "KAYAN PLUS", "كيان بلص"],
+        "url": "https://kayanplus.com",
+        "logo": "https://kayanplus.com/mainlogo.png",
+        "description": "شركة كيان بلس متخصصة في خدمات رجال الأعمال والتراخيص الصناعية في مصر",
+        "foundingDate": "2010",
+        "founder": {
+            "@type": "Person",
+            "name": "المهندس حسن عطية"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+201033006690",
+            "contactType": "customer service",
+            "availableLanguage": ["Arabic", "English"]
+        },
+        "sameAs": [
+            "https://www.facebook.com/profile.php?id=61578615637746",
+            "https://wa.me/201033006690"
+        ]
+    }
+    </script>
+    
+    <!-- WebSite Schema for Sitelinks -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "كيان بلس",
+        "alternateName": "Kayan Plus",
+        "url": "https://kayanplus.com",
+        "description": "كيان بلس - شريكك الموثوق من التأسيس حتى التشغيل",
+        "inLanguage": "ar",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://kayanplus.com/?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "الرئيسية",
+                "item": "https://kayanplus.com"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "خدماتنا",
+                "item": "https://kayanplus.com/#services"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "تواصل معنا",
+                "item": "https://kayanplus.com/#contact"
+            }
+        ]
+    }
+    </script>
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
 
@@ -1974,11 +2107,42 @@
     <!-- Footer -->
     <footer>
         <div class="footer-logo">
-            <img src="mainlogo.png" alt="كيان بلس">
+            <img src="mainlogo.png" alt="شعار كيان بلس - Kayan Plus Logo">
         </div>
+        <p><strong>كيان بلس - Kayan Plus</strong></p>
         <p>© 2026 كيان PLUS - جميع الحقوق محفوظة</p>
         <p class="footer-tagline">شريكك الموثوق من التأسيس حتى التشغيل ✨</p>
+        
+        <!-- SEO Footer Content -->
+        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(201, 162, 39, 0.1); font-size: 0.75rem; color: var(--gray); line-height: 1.8;">
+            <p style="margin-bottom: 0.5rem;">كيان بلس | Kayan Plus - خدمات رجال الأعمال والتراخيص الصناعية في مصر</p>
+            <p style="margin-bottom: 0.5rem;">السجل الصناعي • رخص التشغيل • موافقات البيئة • أنظمة الحريق • رخص البناء • كاميرات المراقبة</p>
+            <p>العاشر من رمضان • 6 أكتوبر • بدر • العبور • السويس • سيناء</p>
+        </div>
     </footer>
+    
+    <!-- Hidden SEO Content for Search Engines -->
+    <div style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;" aria-hidden="true">
+        <h1>كيان بلس - Kayan Plus</h1>
+        <h2>شركة كيان بلس لخدمات رجال الأعمال</h2>
+        <p>كيان بلس هي شركة رائدة في مجال الخدمات الصناعية والتراخيص في مصر. نقدم خدمات متكاملة تشمل:</p>
+        <ul>
+            <li>استخراج السجل الصناعي وشهادة السجل الصناعي</li>
+            <li>رخص التشغيل الدائمة والمؤقتة</li>
+            <li>موافقات البيئة وجهاز شئون البيئة</li>
+            <li>أنظمة الحريق والإطفاء والإنذار</li>
+            <li>موافقات الحماية المدنية</li>
+            <li>رخص البناء والتصميمات الهندسية</li>
+            <li>السجل التجاري والبطاقة الضريبية</li>
+            <li>تأسيس الشركات والمصانع</li>
+            <li>كاميرات المراقبة وأنظمة الأمان</li>
+            <li>الملفات الفنية والبيئية</li>
+        </ul>
+        <p>نخدم جميع المناطق الصناعية: العاشر من رمضان، مدينة 6 أكتوبر، مدينة بدر، مدينة العبور، السويس، سيناء</p>
+        <p>تواصل مع كيان بلس: 01033006690</p>
+        <p>Kayan Plus - Industrial Licensing Services in Egypt</p>
+        <p>Industrial Register, Operating License, Environmental Approval, Fire Systems, Building Permits</p>
+    </div>
 
     <script>
         // Scroll to top on load
