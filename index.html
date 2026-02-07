@@ -3,7 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        /* منع التمرير الأفقي والتكبير/التصغير */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100vw;
+            touch-action: pan-y;
+        }
+        * {
+            box-sizing: border-box;
+        }
+    </style>
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="كيان بلس - شركة متخصصة في خدمات رجال الأعمال والمصانع | استخراج التراخيص الصناعية، السجل الصناعي، رخص التشغيل، موافقات البيئة، أنظمة الحريق، رخص البناء | العاشر من رمضان، 6 أكتوبر، بدر، العبور">
