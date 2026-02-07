@@ -3,16 +3,33 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <style>
         /* منع التمرير الأفقي والتكبير/التصغير */
-        html, body {
-            overflow-x: hidden;
-            max-width: 100vw;
-            touch-action: pan-y;
+        html {
+            overflow-x: hidden !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            touch-action: pan-y !important;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        body {
+            overflow-x: hidden !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            position: relative !important;
+            touch-action: pan-y !important;
         }
         * {
-            box-sizing: border-box;
+            box-sizing: border-box !important;
+        }
+        /* إخفاء العناصر التي تخرج عن الشاشة */
+        .bg-animation {
+            overflow: hidden !important;
+        }
+        .floating-shape {
+            max-width: 100vw;
         }
     </style>
     
@@ -338,6 +355,7 @@
             height: 100%;
             z-index: -1;
             background: linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #111111 100%);
+            overflow: hidden;
         }
 
         .floating-shape {
@@ -352,7 +370,8 @@
             height: 600px;
             background: var(--accent);
             top: -200px;
-            right: -200px;
+            right: 0;
+            max-width: 50vw;
         }
 
         .shape2 {
@@ -360,13 +379,16 @@
             height: 500px;
             background: var(--gold);
             bottom: -200px;
-            left: -150px;
+            left: 0;
+            max-width: 50vw;
         }
 
         .container {
             max-width: 1300px;
+            width: 100%;
             margin: 0 auto;
             padding: 0 2rem;
+            overflow-x: hidden;
         }
 
         /* Navigation */
