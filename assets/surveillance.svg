@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <defs>
+    <linearGradient id="bgGrad2" x1="0" y1="0" x2="800" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="50%" stop-color="#1e40af"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="camGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+    <linearGradient id="lensGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="50%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="goldLine2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C9A227"/>
+      <stop offset="100%" stop-color="#E8C547"/>
+    </linearGradient>
+    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bgGrad2)"/>
+  
+  <!-- Grid pattern -->
+  <g opacity="0.05">
+    <line x1="100" y1="0" x2="100" y2="500" stroke="white" stroke-width="1"/>
+    <line x1="200" y1="0" x2="200" y2="500" stroke="white" stroke-width="1"/>
+    <line x1="300" y1="0" x2="300" y2="500" stroke="white" stroke-width="1"/>
+    <line x1="400" y1="0" x2="400" y2="500" stroke="white" stroke-width="1"/>
+    <line x1="500" y1="0" x2="500" y2="500" stroke="white" stroke-width="1"/>
+    <line x1="600" y1="0" x2="600" y2="500" stroke="white" stroke-width="1"/>
+    <line x1="700" y1="0" x2="700" y2="500" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="100" x2="800" y2="100" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="200" x2="800" y2="200" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="300" x2="800" y2="300" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="400" x2="800" y2="400" stroke="white" stroke-width="1"/>
+  </g>
+  
+  <!-- Glow behind camera -->
+  <circle cx="400" cy="220" r="120" fill="url(#glowGrad)"/>
+  
+  <!-- Camera mount arm -->
+  <g transform="translate(400, 190)">
+    <!-- Wall mount plate -->
+    <rect x="-15" y="-80" width="30" height="50" rx="4" fill="#475569" stroke="#64748b" stroke-width="1.5"/>
+    <circle cx="0" cy="-60" r="4" fill="#334155" stroke="#64748b" stroke-width="1"/>
+    
+    <!-- Arm -->
+    <rect x="-6" y="-35" width="12" height="40" rx="3" fill="#475569"/>
+    <circle cx="0" cy="-30" r="8" fill="#334155" stroke="#64748b" stroke-width="1.5"/>
+    
+    <!-- Camera body -->
+    <g transform="translate(0, 20)">
+      <!-- Main camera body -->
+      <rect x="-55" y="-25" width="110" height="50" rx="12" fill="url(#camGrad)" stroke="#64748b" stroke-width="1.5"/>
+      
+      <!-- Lens housing -->
+      <circle cx="35" cy="0" r="22" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+      <circle cx="35" cy="0" r="16" fill="url(#lensGrad)"/>
+      <circle cx="35" cy="0" r="8" fill="#0f172a"/>
+      <circle cx="35" cy="0" r="4" fill="#3b82f6" opacity="0.8"/>
+      <!-- Lens reflection -->
+      <circle cx="30" cy="-5" r="3" fill="white" opacity="0.3"/>
+      
+      <!-- IR LED indicators -->
+      <circle cx="-25" cy="-8" r="3" fill="#ef4444" opacity="0.8"/>
+      <circle cx="-25" cy="8" r="3" fill="#ef4444" opacity="0.5"/>
+      
+      <!-- Status LED -->
+      <circle cx="-40" cy="0" r="3" fill="#22c55e">
+        <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+  
+  <!-- Signal waves from camera -->
+  <g opacity="0.2">
+    <circle cx="435" cy="210" r="40" fill="none" stroke="#60a5fa" stroke-width="1.5">
+      <animate attributeName="r" values="40;70" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="435" cy="210" r="40" fill="none" stroke="#60a5fa" stroke-width="1.5">
+      <animate attributeName="r" values="40;70" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="435" cy="210" r="40" fill="none" stroke="#60a5fa" stroke-width="1.5">
+      <animate attributeName="r" values="40;70" dur="2s" begin="1.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0" dur="2s" begin="1.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Monitor screens -->
+  <g transform="translate(160, 320)" opacity="0.6">
+    <rect x="0" y="0" width="80" height="55" rx="4" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect x="4" y="4" width="72" height="40" rx="2" fill="#1e293b"/>
+    <rect x="30" y="48" width="20" height="8" rx="2" fill="#334155"/>
+    <!-- Screen content lines -->
+    <rect x="8" y="10" width="30" height="2" rx="1" fill="#3b82f6" opacity="0.5"/>
+    <rect x="8" y="16" width="50" height="2" rx="1" fill="#3b82f6" opacity="0.3"/>
+    <rect x="8" y="22" width="40" height="2" rx="1" fill="#3b82f6" opacity="0.3"/>
+  </g>
+  
+  <g transform="translate(560, 320)" opacity="0.6">
+    <rect x="0" y="0" width="80" height="55" rx="4" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect x="4" y="4" width="72" height="40" rx="2" fill="#1e293b"/>
+    <rect x="30" y="48" width="20" height="8" rx="2" fill="#334155"/>
+    <!-- Screen content -->
+    <rect x="8" y="10" width="35" height="2" rx="1" fill="#22c55e" opacity="0.5"/>
+    <rect x="8" y="16" width="55" height="2" rx="1" fill="#3b82f6" opacity="0.3"/>
+    <rect x="8" y="22" width="45" height="2" rx="1" fill="#3b82f6" opacity="0.3"/>
+  </g>
+  
+  <!-- Shield icon -->
+  <g transform="translate(370, 310)" opacity="0.5">
+    <path d="M30 5 L55 15 L55 35 Q55 55 30 65 Q5 55 5 35 L5 15 Z" fill="none" stroke="#60a5fa" stroke-width="2"/>
+    <polyline points="22,35 28,42 42,28" stroke="#60a5fa" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Decorative circles -->
+  <g opacity="0.08">
+    <circle cx="100" cy="100" r="80" fill="#60a5fa"/>
+    <circle cx="700" cy="420" r="60" fill="#60a5fa"/>
+  </g>
+  
+  <!-- Gold accent line -->
+  <rect x="300" y="420" width="200" height="3" rx="1.5" fill="url(#goldLine2)" opacity="0.6"/>
+  
+  <!-- Text -->
+  <text x="400" y="468" text-anchor="middle" font-family="Cairo, Arial, sans-serif" font-size="18" font-weight="700" fill="rgba(255,255,255,0.7)">المراقبة والأمان</text>
+</svg>
