@@ -1,0 +1,6 @@
+# Original high-resolution sources (A4 scans and posters, 1–15 MB each).
+# The site only loads the optimized copies in assets/img/.
+# Regenerate them with:  python tools/optimize-images.py
+/التأسيس والترخيص/
+/رخصه التشغيل.png
+/ChatGPT Image*.png
