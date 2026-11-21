@@ -7,42 +7,12 @@
 
     const $ = (sel, ctx = document) => ctx.querySelector(sel);
     const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hasIO = 'IntersectionObserver' in window;
 
     const root = document.documentElement;
     const WHATSAPP_NUMBER = '201033006690';
     // End of the exceptional "توفيق الأوضاع" period, set once on <html>.
     const CAMPAIGN_DEADLINE = Date.parse(root.dataset.campaignEnd);
-
-    /* ------------------------------------------------------------------ Reveal on scroll */
-    // Runs first: until it does, the .reveal sections are invisible.
-    const revealEls = $$('.reveal');
-    // Once an element has entered, drop the helper classes so its own hover
-    // transitions (lift, glow) work without the entrance delay.
-    const settle = (el) => el.classList.remove('reveal', 'is-in');
-    if (hasIO && !reduceMotion) {
-        const revealer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (!entry.isIntersecting) return;
-                const el = entry.target;
-                revealer.unobserve(el);
-                el.classList.add('is-in');
-                const onEnd = (e) => {
-                    if (e.target !== el) return;
-                    el.removeEventListener('transitionend', onEnd);
-                    settle(el);
-                };
-                el.addEventListener('transitionend', onEnd);
-                setTimeout(() => settle(el), 1800);
-            });
-        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
-        revealEls.forEach((el) => revealer.observe(el));
-    } else {
-        revealEls.forEach(settle);
-    }
-    // Tells the inline fallback in <head> that the reveal is in place.
-    root.setAttribute('data-ready', '');
 
     const openDialog = (dialog) => {
         if (typeof dialog.showModal === 'function') dialog.showModal();
@@ -53,23 +23,16 @@
         else dialog.removeAttribute('open');
     };
 
-    /* ------------------------------------------------------------------ Header & back-to-top */
+    /* ------------------------------------------------------------------ Header hairline on scroll */
     const header = $('#siteHeader');
-    const toTop = $('#toTop');
     let isScrolled = null;
-    let showTop = null;
     let ticking = false;
-
     const onScroll = () => {
         ticking = false;
-        const y = window.scrollY;
-        if ((y > 40) !== isScrolled) {
-            isScrolled = y > 40;
-            header.classList.toggle('is-scrolled', isScrolled);
-        }
-        if ((y > 900) !== showTop) {
-            showTop = y > 900;
-            toTop.classList.toggle('is-visible', showTop);
+        const scrolled = window.scrollY > 8;
+        if (scrolled !== isScrolled) {
+            isScrolled = scrolled;
+            header.classList.toggle('is-scrolled', scrolled);
         }
     };
     window.addEventListener('scroll', () => {
@@ -81,10 +44,9 @@
     // First check on the next frame: reading scrollY now would force a
     // synchronous layout of the whole page while it is still loading.
     requestAnimationFrame(onScroll);
-    toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
 
     /* ------------------------------------------------------------------ Active section in the nav */
-    const navLinks = $$('.nav-links a[href^="#"]');
+    const navLinks = $$('.hdr-nav a[href^="#"]');
     if (hasIO && navLinks.length) {
         const linkFor = new Map(navLinks.map((a) => [a.hash.slice(1), a]));
         const spy = new IntersectionObserver((entries) => {
@@ -114,87 +76,33 @@
     });
     menu.addEventListener('close', () => burger.setAttribute('aria-expanded', 'false'));
 
-    const steps = $('#steps');
-    if (steps) {
-        if (hasIO && !reduceMotion) {
-            const drawer = new IntersectionObserver((entries) => {
-                if (!entries.some((entry) => entry.isIntersecting)) return;
-                steps.classList.add('is-drawn');
-                drawer.disconnect();
-            }, { threshold: 0.35 });
-            drawer.observe(steps);
-        } else {
-            steps.classList.add('is-drawn');
-        }
-    }
-
-    /* ------------------------------------------------------------------ Count-up stats */
-    if (hasIO && !reduceMotion) {
-        const countUp = (el) => {
-            const target = Number(el.dataset.count);
-            const start = performance.now();
-            const frame = (now) => {
-                const p = Math.min(1, (now - start) / 1400);
-                el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
-                if (p < 1) requestAnimationFrame(frame);
-            };
-            requestAnimationFrame(frame);
-        };
-        // Stats already on screen at load keep their final value (resetting
-        // them to 0 would flash). Off-screen ones drop to 0 and count up later.
-        const armed = new WeakSet();
-        const counter = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                const el = entry.target;
-                if (armed.has(el)) {
-                    if (entry.intersectionRatio < 0.6) return;
-                    counter.unobserve(el);
-                    countUp(el);
-                } else if (!entry.isIntersecting) {
-                    armed.add(el);
-                    el.textContent = '0';
-                } else {
-                    counter.unobserve(el);
-                }
-            });
-        }, { threshold: [0, 0.6] });
-        $$('[data-count]').forEach((el) => counter.observe(el));
-    }
-
-    /* ------------------------------------------------------------------ Campaign countdown */
-    const cd = { d: $('[data-cd="d"]'), h: $('[data-cd="h"]'), m: $('[data-cd="m"]'), s: $('[data-cd="s"]') };
-    const daysLeftEls = $$('[data-days-left]');
-    const pad = (n) => String(n).padStart(2, '0');
-    let countdownTimer = 0;
-    let lastDays = -1;
-
-    // Same class the inline <head> script sets when the page loads after the
-    // deadline: hides [data-campaign] and the header's room for the topbar.
-    const endCampaign = () => {
-        clearInterval(countdownTimer);
-        root.classList.add('campaign-over');
+    /* ------------------------------------------------------------------ Campaign: days left */
+    // Arabic counted noun: 11+ → يوماً, 3–10 → أيام, 2 → يومان, 1 → يوم واحد.
+    const daysPhrase = (n) => {
+        if (n >= 11) return `${n} يوماً`;
+        if (n >= 3) return `${n} أيام`;
+        if (n === 2) return 'يومان';
+        if (n === 1) return 'يوم واحد';
+        return 'ساعات';
     };
-    const tick = () => {
+    const dayCounts = $$('[data-days-left]');
+    const dayPhrases = $$('[data-days-phrase]');
+    let campaignTimer = 0;
+    // Same class the inline <head> script sets when the page loads after the
+    // deadline: hides every [data-campaign] block.
+    const updateCampaign = () => {
         const left = CAMPAIGN_DEADLINE - Date.now();
-        if (left <= 0) {
-            endCampaign();
+        if (!(left > 0)) {
+            clearInterval(campaignTimer);
+            root.classList.add('campaign-over');
             return;
         }
-        const total = Math.floor(left / 1000);
-        const days = Math.floor(total / 86400);
-        if (cd.d) {
-            cd.d.textContent = String(days);
-            cd.h.textContent = pad(Math.floor((total % 86400) / 3600));
-            cd.m.textContent = pad(Math.floor((total % 3600) / 60));
-            cd.s.textContent = pad(total % 60);
-        }
-        if (days !== lastDays) {
-            lastDays = days;
-            daysLeftEls.forEach((el) => { el.textContent = String(days); });
-        }
+        const days = Math.floor(left / 86400000);
+        dayCounts.forEach((el) => { el.textContent = String(days); });
+        dayPhrases.forEach((el) => { el.textContent = daysPhrase(days); });
     };
-    tick();
-    if (CAMPAIGN_DEADLINE > Date.now()) countdownTimer = setInterval(tick, 1000);
+    updateCampaign();
+    if (CAMPAIGN_DEADLINE > Date.now()) campaignTimer = setInterval(updateCampaign, 60000);
 
     /* ------------------------------------------------------------------ Work filter */
     const docsList = $('#docs');
@@ -219,7 +127,7 @@
     const lbFull = $('#lbFull');
     let viewing = [];
     let index = 0;
-    // Transparent 1x1 GIF: an empty box (ivory background + spinner) while a scan loads.
+    // Transparent 1x1 GIF: an empty box (white background + spinner) while a scan loads.
     const BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
     // Size the image box from the scan's real dimensions so the blurred
