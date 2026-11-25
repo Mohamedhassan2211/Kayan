@@ -8,11 +8,15 @@
     const $ = (sel, ctx = document) => ctx.querySelector(sel);
     const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
     const hasIO = 'IntersectionObserver' in window;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const root = document.documentElement;
     const WHATSAPP_NUMBER = '201033006690';
     // End of the exceptional "توفيق الأوضاع" period, set once on <html>.
     const CAMPAIGN_DEADLINE = Date.parse(root.dataset.campaignEnd);
+
+    // Tells the safety timer in <head> that this file ran, so reveals stay on.
+    root.classList.add('js-ready');
 
     const openDialog = (dialog) => {
         if (typeof dialog.showModal === 'function') dialog.showModal();
@@ -22,28 +26,6 @@
         if (typeof dialog.close === 'function') dialog.close();
         else dialog.removeAttribute('open');
     };
-
-    /* ------------------------------------------------------------------ Header hairline on scroll */
-    const header = $('#siteHeader');
-    let isScrolled = null;
-    let ticking = false;
-    const onScroll = () => {
-        ticking = false;
-        const scrolled = window.scrollY > 8;
-        if (scrolled !== isScrolled) {
-            isScrolled = scrolled;
-            header.classList.toggle('is-scrolled', scrolled);
-        }
-    };
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            ticking = true;
-            requestAnimationFrame(onScroll);
-        }
-    }, { passive: true });
-    // First check on the next frame: reading scrollY now would force a
-    // synchronous layout of the whole page while it is still loading.
-    requestAnimationFrame(onScroll);
 
     /* ------------------------------------------------------------------ Active section in the nav */
     const navLinks = $$('.hdr-nav a[href^="#"]');
@@ -61,20 +43,35 @@
     }
 
     /* ------------------------------------------------------------------ Mobile menu */
+    // The floating bar stays on top of the full height panel, so the toggle
+    // itself morphs into the close button (CSS, driven by aria-expanded).
     const menu = $('#mobileMenu');
     const burger = $('#burger');
-    burger.addEventListener('click', () => {
-        openDialog(menu);
-        burger.setAttribute('aria-expanded', 'true');
+    const behindMenu = [$('main'), $('.footer')].filter(Boolean);
+    const isMenuOpen = () => burger.getAttribute('aria-expanded') === 'true';
+    const setMenu = (open) => {
+        if (open === isMenuOpen()) return;
+        burger.setAttribute('aria-expanded', String(open));
+        burger.setAttribute('aria-label', open ? 'إغلاق القائمة' : 'فتح القائمة');
+        menu.classList.toggle('is-open', open);
+        root.classList.toggle('menu-open', open);
+        // Keep keyboard and screen reader focus inside the bar and the panel.
+        behindMenu.forEach((el) => { el.inert = open; });
+    };
+    burger.addEventListener('click', () => setMenu(!isMenuOpen()));
+    // Any link in the panel or the bar closes it first, then the browser follows the link.
+    document.addEventListener('click', (e) => {
+        if (isMenuOpen() && e.target.closest('#mobileMenu a, #siteHeader a')) setMenu(false);
     });
-    menu.addEventListener('click', (e) => {
-        // Close first, then let the browser follow the in-page link.
-        if (e.target.closest('a, [data-close-menu]')) {
-            closeDialog(menu);
-            burger.setAttribute('aria-expanded', 'false');
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isMenuOpen()) {
+            setMenu(false);
+            burger.focus();
         }
     });
-    menu.addEventListener('close', () => burger.setAttribute('aria-expanded', 'false'));
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', (mq) => {
+        if (mq.matches) setMenu(false);
+    });
 
     /* ------------------------------------------------------------------ Campaign: days left */
     // Arabic counted noun: 11+ → يوماً, 3–10 → أيام, 2 → يومان, 1 → يوم واحد.
@@ -104,6 +101,77 @@
     updateCampaign();
     if (CAMPAIGN_DEADLINE > Date.now()) campaignTimer = setInterval(updateCampaign, 60000);
 
+    /* ------------------------------------------------------------------ Scroll reveals */
+    // Each section rises and fades in once, the first time it enters the view.
+    if (hasIO && root.classList.contains('reveal-on')) {
+        const revealer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-in');
+                revealer.unobserve(entry.target);
+            });
+        }, { rootMargin: '0px 0px -10% 0px' });
+        $$('[data-reveal]').forEach((el) => revealer.observe(el));
+    }
+
+    /* ------------------------------------------------------------------ Tagline: word by word */
+    // Words start muted and light up one at a time, in reading order, as the
+    // text crosses a trigger line. One rAF throttled scroll listener, attached
+    // only while the tagline is on screen. Without JS or with reduced motion
+    // the text simply shows at full colour.
+    const tagline = $('[data-words]');
+    if (tagline && hasIO && !reduceMotion) {
+        const words = [];
+        $$(':scope > span', tagline).forEach((line) => {
+            const parts = line.textContent.trim().split(/\s+/);
+            line.textContent = '';
+            parts.forEach((word, i) => {
+                const w = document.createElement('span');
+                w.className = 'w';
+                w.textContent = word;
+                if (i) line.append(' ');
+                line.append(w);
+                words.push(w);
+            });
+        });
+        tagline.classList.add('is-split');
+
+        let lit = 0;
+        let frame = 0;
+        let listening = false;
+        const update = () => {
+            frame = 0;
+            const box = tagline.getBoundingClientRect();
+            const vh = window.innerHeight;
+            const trigger = vh * 0.7;
+            // 0 when the first line reaches the trigger line, 1 once the last
+            // line is a quarter screen past it. Never goes backwards.
+            const progress = (trigger - box.top) / (box.height + vh * 0.25);
+            const target = Math.min(words.length, Math.ceil(progress * words.length));
+            for (; lit < target; lit += 1) words[lit].classList.add('is-on');
+            if (lit >= words.length) stop();
+        };
+        const onScroll = () => {
+            if (!frame) frame = requestAnimationFrame(update);
+        };
+        const listen = (on) => {
+            if (on === listening) return;
+            listening = on;
+            if (on) {
+                window.addEventListener('scroll', onScroll, { passive: true });
+                onScroll();
+            } else {
+                window.removeEventListener('scroll', onScroll);
+            }
+        };
+        const watcher = new IntersectionObserver(([entry]) => listen(entry.isIntersecting));
+        const stop = () => {
+            watcher.disconnect();
+            listen(false);
+        };
+        watcher.observe(tagline);
+    }
+
     /* ------------------------------------------------------------------ Work filter */
     const docsList = $('#docs');
     const docs = $$('.doc', docsList);
@@ -125,13 +193,14 @@
     const lbMeta = $('#lbMeta');
     const lbCount = $('#lbCount');
     const lbFull = $('#lbFull');
+    const lbError = $('#lbError');
     let viewing = [];
     let index = 0;
-    // Transparent 1x1 GIF: an empty box (white background + spinner) while a scan loads.
+    // Transparent 1x1 GIF: a page shaped white skeleton while a scan loads.
     const BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
-    // Size the image box from the scan's real dimensions so the blurred
-    // thumbnail placeholder and the sharp scan occupy exactly the same space.
+    // Size the image box from the scan's real dimensions so the skeleton
+    // and the sharp scan occupy exactly the same space.
     const fit = () => {
         const btn = viewing[index] && $('.doc-open', viewing[index]);
         if (!btn) return;
@@ -157,6 +226,7 @@
         lbCount.textContent = `${index + 1} / ${viewing.length}`;
         lbFull.href = fullSrc;
         lbImg.alt = thumb.alt;
+        lbError.hidden = true;
         fit();
 
         lb.classList.add('is-loading');
@@ -175,7 +245,9 @@
             if (next !== doc) new Image().src = $('.doc-open', next).dataset.full;
         };
         sharp.onerror = () => {
-            if (viewing[index] === doc) lb.classList.remove('is-loading');
+            if (viewing[index] !== doc) return;
+            lb.classList.remove('is-loading');
+            lbError.hidden = false;
         };
         sharp.src = fullSrc;
     };
@@ -213,7 +285,7 @@
         }
     });
 
-    // Swipe to page — but not while pinch-zoomed into a scan: then a sideways
+    // Swipe to page, but not while pinch zoomed into a scan: then a sideways
     // drag must pan the page (.is-zoomed hands touch-action back to the browser).
     const vv = window.visualViewport;
     const zoomed = () => Boolean(vv) && vv.scale > 1.01;
@@ -243,15 +315,26 @@
     const form = $('#leadForm');
     if (form) {
         const nameField = form.elements.name;
-        nameField.addEventListener('input', () => nameField.setCustomValidity(''));
+        const nameError = $('#f-name-error');
+        const status = $('#formStatus');
+        const showNameError = (show) => {
+            nameError.hidden = !show;
+            if (show) nameField.setAttribute('aria-invalid', 'true');
+            else nameField.removeAttribute('aria-invalid');
+        };
+        nameField.addEventListener('input', () => {
+            if (nameField.value.trim()) showNameError(false);
+        });
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const name = nameField.value.trim();
             if (!name) {
-                nameField.setCustomValidity('من فضلك اكتب الاسم أو اسم المنشأة');
-                nameField.reportValidity();
+                status.textContent = '';
+                showNameError(true);
+                nameField.focus();
                 return;
             }
+            showNameError(false);
             const data = new FormData(form);
             const lines = [
                 'مرحباً كيان بلس، أريد طلب استشارة مجانية.',
@@ -262,6 +345,7 @@
             const notes = String(data.get('notes') || '').trim();
             if (notes) lines.push(`التفاصيل: ${notes}`);
             const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+            status.textContent = 'جهّزنا رسالة طلبك في واتساب. اضغط إرسال هناك ليصلنا الطلب.';
             // In-app browsers (Facebook, Instagram) often block new windows:
             // fall back to the same tab so the request is never lost.
             const win = window.open(url, '_blank');
